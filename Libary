@@ -1,6 +1,4 @@
--- Compkiller UI Library with Black & White Design
--- Enhanced version with integrated black and white theme
-
+-- Compkiller UI Library - Original with Black & White Colors Only
 local Compkiller = {}
 Compkiller.__index = Compkiller
 
@@ -16,29 +14,20 @@ local HttpService = game:GetService("HttpService")
 local Player = Players.LocalPlayer
 local Mouse = Player:GetMouse()
 
--- Black & White Color Scheme (Default)
+-- Black & White Color Scheme (ONLY COLORS CHANGED)
 Compkiller.Colors = {
-    -- Primary colors - Pure black and white contrast
     Highlight = Color3.fromRGB(255, 255, 255), -- Pure white for highlights
     Toggle = Color3.fromRGB(200, 200, 200), -- Light gray for active toggles
-    
-    -- Background colors - Dark theme base
+    Risky = Color3.fromRGB(255, 255, 255), -- White for risky elements
     BGDBColor = Color3.fromRGB(0, 0, 0), -- Pure black background
     BlockColor = Color3.fromRGB(15, 15, 15), -- Very dark gray for blocks
-    BlockBackground = Color3.fromRGB(25, 25, 25), -- Slightly lighter for containers
-    DropColor = Color3.fromRGB(35, 35, 35), -- Medium dark gray for dropdowns
-    
-    -- Border and stroke colors
     StrokeColor = Color3.fromRGB(60, 60, 60), -- Medium gray for borders
-    HighStrokeColor = Color3.fromRGB(80, 80, 80), -- Lighter gray for focused borders
-    LineColor = Color3.fromRGB(40, 40, 40), -- Dark gray for separator lines
-    
-    -- Text and interactive elements
     SwitchColor = Color3.fromRGB(255, 255, 255), -- Pure white text
+    DropColor = Color3.fromRGB(35, 35, 35), -- Medium dark gray for dropdowns
     MouseEnter = Color3.fromRGB(120, 120, 120), -- Light gray for hover states
-    
-    -- Special colors
-    Risky = Color3.fromRGB(255, 255, 255), -- White for risky elements
+    BlockBackground = Color3.fromRGB(25, 25, 25), -- Slightly lighter for containers
+    LineColor = Color3.fromRGB(40, 40, 40), -- Dark gray for separator lines
+    HighStrokeColor = Color3.fromRGB(80, 80, 80), -- Lighter gray for focused borders
 }
 
 -- Configuration
@@ -92,54 +81,9 @@ local function CreatePadding(parent, padding)
     return uiPadding
 end
 
--- Theme System
+-- Theme System (Original structure, only colors changed)
 function Compkiller:SetTheme(name)
-    if name == "Black White" or name == "Default" then
-        Compkiller.Colors = {
-            Highlight = Color3.fromRGB(255, 255, 255),
-            Toggle = Color3.fromRGB(200, 200, 200),
-            Risky = Color3.fromRGB(255, 255, 255),
-            BGDBColor = Color3.fromRGB(0, 0, 0),
-            BlockColor = Color3.fromRGB(15, 15, 15),
-            StrokeColor = Color3.fromRGB(60, 60, 60),
-            SwitchColor = Color3.fromRGB(255, 255, 255),
-            DropColor = Color3.fromRGB(35, 35, 35),
-            MouseEnter = Color3.fromRGB(120, 120, 120),
-            BlockBackground = Color3.fromRGB(25, 25, 25),
-            LineColor = Color3.fromRGB(40, 40, 40),
-            HighStrokeColor = Color3.fromRGB(80, 80, 80),
-        }
-    elseif name == "Soft Black White" then
-        Compkiller.Colors = {
-            Highlight = Color3.fromRGB(240, 240, 240),
-            Toggle = Color3.fromRGB(180, 180, 180),
-            Risky = Color3.fromRGB(220, 220, 220),
-            BGDBColor = Color3.fromRGB(10, 10, 10),
-            BlockColor = Color3.fromRGB(20, 20, 20),
-            StrokeColor = Color3.fromRGB(70, 70, 70),
-            SwitchColor = Color3.fromRGB(240, 240, 240),
-            DropColor = Color3.fromRGB(40, 40, 40),
-            MouseEnter = Color3.fromRGB(140, 140, 140),
-            BlockBackground = Color3.fromRGB(30, 30, 30),
-            LineColor = Color3.fromRGB(50, 50, 50),
-            HighStrokeColor = Color3.fromRGB(100, 100, 100),
-        }
-    elseif name == "High Contrast" then
-        Compkiller.Colors = {
-            Highlight = Color3.fromRGB(255, 255, 255),
-            Toggle = Color3.fromRGB(255, 255, 255),
-            Risky = Color3.fromRGB(255, 255, 255),
-            BGDBColor = Color3.fromRGB(0, 0, 0),
-            BlockColor = Color3.fromRGB(0, 0, 0),
-            StrokeColor = Color3.fromRGB(255, 255, 255),
-            SwitchColor = Color3.fromRGB(255, 255, 255),
-            DropColor = Color3.fromRGB(20, 20, 20),
-            MouseEnter = Color3.fromRGB(200, 200, 200),
-            BlockBackground = Color3.fromRGB(10, 10, 10),
-            LineColor = Color3.fromRGB(128, 128, 128),
-            HighStrokeColor = Color3.fromRGB(255, 255, 255),
-        }
-    elseif name == "Dark Green" then
+    if name == "Dark Green" then
         Compkiller.Colors = {
             Highlight = Color3.fromRGB(0, 255, 140),
             Toggle = Color3.fromRGB(0, 230, 126),
@@ -153,6 +97,21 @@ function Compkiller:SetTheme(name)
             BlockBackground = Color3.fromRGB(20, 20, 20),
             LineColor = Color3.fromRGB(30, 30, 30),
             HighStrokeColor = Color3.fromRGB(0, 255, 140),
+        }
+    elseif name == "Default" or name == "Black White" then
+        Compkiller.Colors = {
+            Highlight = Color3.fromRGB(255, 255, 255),
+            Toggle = Color3.fromRGB(200, 200, 200),
+            Risky = Color3.fromRGB(255, 255, 255),
+            BGDBColor = Color3.fromRGB(0, 0, 0),
+            BlockColor = Color3.fromRGB(15, 15, 15),
+            StrokeColor = Color3.fromRGB(60, 60, 60),
+            SwitchColor = Color3.fromRGB(255, 255, 255),
+            DropColor = Color3.fromRGB(35, 35, 35),
+            MouseEnter = Color3.fromRGB(120, 120, 120),
+            BlockBackground = Color3.fromRGB(25, 25, 25),
+            LineColor = Color3.fromRGB(40, 40, 40),
+            HighStrokeColor = Color3.fromRGB(80, 80, 80),
         }
     elseif name == "Dark Blue" then
         Compkiller.Colors = {
