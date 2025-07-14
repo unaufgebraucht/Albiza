@@ -1,6 +1,7 @@
--- Compkiller UI Library - Original with Black & White Colors Only
+-- Compkiller UI Library for Roblox - Black & White Theme
+-- Complete working library
+
 local Compkiller = {}
-Compkiller.__index = Compkiller
 
 -- Services
 local TweenService = game:GetService("TweenService")
@@ -14,42 +15,25 @@ local HttpService = game:GetService("HttpService")
 local Player = Players.LocalPlayer
 local Mouse = Player:GetMouse()
 
--- Black & White Color Scheme (ONLY COLORS CHANGED)
+-- Black & White Color Scheme
 Compkiller.Colors = {
-    Highlight = Color3.fromRGB(255, 255, 255), -- Pure white for highlights
-    Toggle = Color3.fromRGB(200, 200, 200), -- Light gray for active toggles
-    Risky = Color3.fromRGB(255, 255, 255), -- White for risky elements
-    BGDBColor = Color3.fromRGB(0, 0, 0), -- Pure black background
-    BlockColor = Color3.fromRGB(15, 15, 15), -- Very dark gray for blocks
-    StrokeColor = Color3.fromRGB(60, 60, 60), -- Medium gray for borders
-    SwitchColor = Color3.fromRGB(255, 255, 255), -- Pure white text
-    DropColor = Color3.fromRGB(35, 35, 35), -- Medium dark gray for dropdowns
-    MouseEnter = Color3.fromRGB(120, 120, 120), -- Light gray for hover states
-    BlockBackground = Color3.fromRGB(25, 25, 25), -- Slightly lighter for containers
-    LineColor = Color3.fromRGB(40, 40, 40), -- Dark gray for separator lines
-    HighStrokeColor = Color3.fromRGB(80, 80, 80), -- Lighter gray for focused borders
+    Highlight = Color3.fromRGB(255, 255, 255),
+    Toggle = Color3.fromRGB(200, 200, 200),
+    Risky = Color3.fromRGB(255, 255, 255),
+    BGDBColor = Color3.fromRGB(0, 0, 0),
+    BlockColor = Color3.fromRGB(15, 15, 15),
+    StrokeColor = Color3.fromRGB(60, 60, 60),
+    SwitchColor = Color3.fromRGB(255, 255, 255),
+    DropColor = Color3.fromRGB(35, 35, 35),
+    MouseEnter = Color3.fromRGB(120, 120, 120),
+    BlockBackground = Color3.fromRGB(25, 25, 25),
+    LineColor = Color3.fromRGB(40, 40, 40),
+    HighStrokeColor = Color3.fromRGB(80, 80, 80),
 }
-
--- Configuration
-Compkiller.Config = {
-    WindowSize = UDim2.new(0, 580, 0, 460),
-    TweenSpeed = 0.2,
-    Font = Enum.Font.Gotham,
-    FontSize = 14,
-    CornerRadius = 4,
-    Padding = 8,
-    Mobile = false
-}
-
--- Mobile Detection
-if UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled then
-    Compkiller.Config.Mobile = true
-    Compkiller.Config.WindowSize = UDim2.new(0, 320, 0, 400)
-end
 
 -- Utility Functions
 local function CreateTween(object, properties, duration)
-    duration = duration or Compkiller.Config.TweenSpeed
+    duration = duration or 0.2
     local tween = TweenService:Create(object, TweenInfo.new(duration, Enum.EasingStyle.Quad), properties)
     tween:Play()
     return tween
@@ -57,7 +41,7 @@ end
 
 local function CreateCorner(parent, radius)
     local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0, radius or Compkiller.Config.CornerRadius)
+    corner.CornerRadius = UDim.new(0, radius or 4)
     corner.Parent = parent
     return corner
 end
@@ -70,198 +54,29 @@ local function CreateStroke(parent, color, thickness)
     return stroke
 end
 
-local function CreatePadding(parent, padding)
-    local uiPadding = Instance.new("UIPadding")
-    padding = padding or Compkiller.Config.Padding
-    uiPadding.PaddingTop = UDim.new(0, padding)
-    uiPadding.PaddingBottom = UDim.new(0, padding)
-    uiPadding.PaddingLeft = UDim.new(0, padding)
-    uiPadding.PaddingRight = UDim.new(0, padding)
-    uiPadding.Parent = parent
-    return uiPadding
-end
-
--- Theme System (Original structure, only colors changed)
-function Compkiller:SetTheme(name)
-    if name == "Dark Green" then
-        Compkiller.Colors = {
-            Highlight = Color3.fromRGB(0, 255, 140),
-            Toggle = Color3.fromRGB(0, 230, 126),
-            Risky = Color3.fromRGB(255, 255, 0),
-            BGDBColor = Color3.fromRGB(9, 9, 11),
-            BlockColor = Color3.fromRGB(14, 17, 17),
-            StrokeColor = Color3.fromRGB(23, 23, 23),
-            SwitchColor = Color3.fromRGB(255, 255, 255),
-            DropColor = Color3.fromRGB(26, 32, 58),
-            MouseEnter = Color3.fromRGB(35, 35, 35),
-            BlockBackground = Color3.fromRGB(20, 20, 20),
-            LineColor = Color3.fromRGB(30, 30, 30),
-            HighStrokeColor = Color3.fromRGB(0, 255, 140),
-        }
-    elseif name == "Default" or name == "Black White" then
-        Compkiller.Colors = {
-            Highlight = Color3.fromRGB(255, 255, 255),
-            Toggle = Color3.fromRGB(200, 200, 200),
-            Risky = Color3.fromRGB(255, 255, 255),
-            BGDBColor = Color3.fromRGB(0, 0, 0),
-            BlockColor = Color3.fromRGB(15, 15, 15),
-            StrokeColor = Color3.fromRGB(60, 60, 60),
-            SwitchColor = Color3.fromRGB(255, 255, 255),
-            DropColor = Color3.fromRGB(35, 35, 35),
-            MouseEnter = Color3.fromRGB(120, 120, 120),
-            BlockBackground = Color3.fromRGB(25, 25, 25),
-            LineColor = Color3.fromRGB(40, 40, 40),
-            HighStrokeColor = Color3.fromRGB(80, 80, 80),
-        }
-    elseif name == "Dark Blue" then
-        Compkiller.Colors = {
-            Highlight = Color3.fromRGB(0, 162, 255),
-            Toggle = Color3.fromRGB(0, 145, 230),
-            Risky = Color3.fromRGB(255, 255, 0),
-            BGDBColor = Color3.fromRGB(9, 9, 11),
-            BlockColor = Color3.fromRGB(14, 17, 17),
-            StrokeColor = Color3.fromRGB(23, 23, 23),
-            SwitchColor = Color3.fromRGB(255, 255, 255),
-            DropColor = Color3.fromRGB(26, 32, 58),
-            MouseEnter = Color3.fromRGB(35, 35, 35),
-            BlockBackground = Color3.fromRGB(20, 20, 20),
-            LineColor = Color3.fromRGB(30, 30, 30),
-            HighStrokeColor = Color3.fromRGB(0, 162, 255),
-        }
-    elseif name == "Purple Rose" then
-        Compkiller.Colors = {
-            Highlight = Color3.fromRGB(198, 45, 108),
-            Toggle = Color3.fromRGB(178, 40, 97),
-            Risky = Color3.fromRGB(255, 255, 0),
-            BGDBColor = Color3.fromRGB(9, 9, 11),
-            BlockColor = Color3.fromRGB(14, 17, 17),
-            StrokeColor = Color3.fromRGB(23, 23, 23),
-            SwitchColor = Color3.fromRGB(255, 255, 255),
-            DropColor = Color3.fromRGB(26, 32, 58),
-            MouseEnter = Color3.fromRGB(35, 35, 35),
-            BlockBackground = Color3.fromRGB(20, 20, 20),
-            LineColor = Color3.fromRGB(30, 30, 30),
-            HighStrokeColor = Color3.fromRGB(198, 45, 108),
-        }
-    elseif name == "Skeet" then
-        Compkiller.Colors = {
-            Highlight = Color3.fromRGB(144, 238, 144),
-            Toggle = Color3.fromRGB(130, 214, 130),
-            Risky = Color3.fromRGB(255, 255, 0),
-            BGDBColor = Color3.fromRGB(17, 17, 17),
-            BlockColor = Color3.fromRGB(25, 25, 25),
-            StrokeColor = Color3.fromRGB(40, 40, 40),
-            SwitchColor = Color3.fromRGB(255, 255, 255),
-            DropColor = Color3.fromRGB(35, 35, 35),
-            MouseEnter = Color3.fromRGB(50, 50, 50),
-            BlockBackground = Color3.fromRGB(30, 30, 30),
-            LineColor = Color3.fromRGB(45, 45, 45),
-            HighStrokeColor = Color3.fromRGB(144, 238, 144),
-        }
-    end
-    
-    Compkiller:RefreshCurrentColor()
-end
-
-function Compkiller:RefreshCurrentColor()
-    -- This function would update all existing UI elements with new colors
-    -- Implementation would iterate through all created elements and update their colors
-end
-
--- Notification System
-Compkiller.Notifications = {}
-
-function Compkiller:Notify(options)
-    options = options or {}
-    local title = options.Title or "Notification"
-    local content = options.Content or "No content provided"
-    local duration = options.Duration or 3
-    local callback = options.Callback or function() end
-    
-    -- Create notification GUI
-    local notificationGui = Instance.new("ScreenGui")
-    notificationGui.Name = "CompkillerNotification"
-    notificationGui.Parent = CoreGui
-    
-    local notification = Instance.new("Frame")
-    notification.Name = "Notification"
-    notification.Size = UDim2.new(0, 300, 0, 80)
-    notification.Position = UDim2.new(1, -320, 1, -100)
-    notification.BackgroundColor3 = Compkiller.Colors.BlockColor
-    notification.BorderSizePixel = 0
-    notification.Parent = notificationGui
-    
-    CreateCorner(notification, 6)
-    CreateStroke(notification, Compkiller.Colors.StrokeColor)
-    
-    local titleLabel = Instance.new("TextLabel")
-    titleLabel.Name = "Title"
-    titleLabel.Size = UDim2.new(1, -16, 0, 25)
-    titleLabel.Position = UDim2.new(0, 8, 0, 8)
-    titleLabel.BackgroundTransparency = 1
-    titleLabel.Text = title
-    titleLabel.TextColor3 = Compkiller.Colors.SwitchColor
-    titleLabel.TextSize = 16
-    titleLabel.Font = Compkiller.Config.Font
-    titleLabel.TextXAlignment = Enum.TextXAlignment.Left
-    titleLabel.Parent = notification
-    
-    local contentLabel = Instance.new("TextLabel")
-    contentLabel.Name = "Content"
-    contentLabel.Size = UDim2.new(1, -16, 0, 40)
-    contentLabel.Position = UDim2.new(0, 8, 0, 32)
-    contentLabel.BackgroundTransparency = 1
-    contentLabel.Text = content
-    contentLabel.TextColor3 = Compkiller.Colors.SwitchColor
-    contentLabel.TextSize = 14
-    contentLabel.Font = Compkiller.Config.Font
-    contentLabel.TextXAlignment = Enum.TextXAlignment.Left
-    contentLabel.TextWrapped = true
-    contentLabel.Parent = notification
-    
-    -- Animate in
-    CreateTween(notification, {Position = UDim2.new(1, -320, 1, -100)}, 0.3)
-    
-    -- Auto dismiss
-    task.wait(duration)
-    CreateTween(notification, {Position = UDim2.new(1, 20, 1, -100)}, 0.3)
-    task.wait(0.3)
-    notificationGui:Destroy()
-    
-    callback()
-end
-
--- Main Window Constructor
+-- Main Constructor
 function Compkiller.new(options)
-    local self = setmetatable({}, Compkiller)
+    local self = {}
     
     options = options or {}
     self.Name = options.Name or "Compkiller"
     self.Keybind = options.Keybind or "Insert"
     self.Logo = options.Logo or ""
-    self.ConfigFolder = options.ConfigFolder or "CompkillerConfigs"
     
     self.Tabs = {}
     self.CurrentTab = nil
     self.Visible = true
     
-    self:CreateWindow()
-    self:SetupKeybind()
-    
-    return self
-end
-
-function Compkiller:CreateWindow()
-    -- Main ScreenGui
+    -- Create Main GUI
     self.Gui = Instance.new("ScreenGui")
     self.Gui.Name = "Compkiller"
     self.Gui.Parent = CoreGui
     self.Gui.ResetOnSpawn = false
     
-    -- Main Window Frame
+    -- Main Window
     self.Window = Instance.new("Frame")
     self.Window.Name = "Window"
-    self.Window.Size = Compkiller.Config.WindowSize
+    self.Window.Size = UDim2.new(0, 580, 0, 460)
     self.Window.Position = UDim2.new(0.5, -290, 0.5, -230)
     self.Window.BackgroundColor3 = Compkiller.Colors.BGDBColor
     self.Window.BorderSizePixel = 0
@@ -283,7 +98,7 @@ function Compkiller:CreateWindow()
     
     CreateCorner(self.TitleBar, 8)
     
-    -- Title
+    -- Title Text
     self.Title = Instance.new("TextLabel")
     self.Title.Name = "Title"
     self.Title.Size = UDim2.new(1, -100, 1, 0)
@@ -292,20 +107,9 @@ function Compkiller:CreateWindow()
     self.Title.Text = self.Name
     self.Title.TextColor3 = Compkiller.Colors.SwitchColor
     self.Title.TextSize = 18
-    self.Title.Font = Compkiller.Config.Font
+    self.Title.Font = Enum.Font.Gotham
     self.Title.TextXAlignment = Enum.TextXAlignment.Left
     self.Title.Parent = self.TitleBar
-    
-    -- Logo (if provided)
-    if self.Logo ~= "" then
-        self.LogoImage = Instance.new("ImageLabel")
-        self.LogoImage.Name = "Logo"
-        self.LogoImage.Size = UDim2.new(0, 30, 0, 30)
-        self.LogoImage.Position = UDim2.new(0, 10, 0, 5)
-        self.LogoImage.BackgroundTransparency = 1
-        self.LogoImage.Image = self.Logo
-        self.LogoImage.Parent = self.TitleBar
-    end
     
     -- Close Button
     self.CloseButton = Instance.new("TextButton")
@@ -317,13 +121,14 @@ function Compkiller:CreateWindow()
     self.CloseButton.Text = "×"
     self.CloseButton.TextColor3 = Compkiller.Colors.SwitchColor
     self.CloseButton.TextSize = 20
-    self.CloseButton.Font = Compkiller.Config.Font
+    self.CloseButton.Font = Enum.Font.Gotham
     self.CloseButton.Parent = self.TitleBar
     
     CreateCorner(self.CloseButton, 4)
     
     self.CloseButton.MouseButton1Click:Connect(function()
-        self:Toggle()
+        self.Visible = not self.Visible
+        self.Gui.Enabled = self.Visible
     end)
     
     -- Tab Container
@@ -337,15 +142,20 @@ function Compkiller:CreateWindow()
     
     CreateCorner(self.TabContainer, 6)
     
-    -- Tab List Layout
-    self.TabList = Instance.new("UIListLayout")
-    self.TabList.FillDirection = Enum.FillDirection.Horizontal
-    self.TabList.HorizontalAlignment = Enum.HorizontalAlignment.Left
-    self.TabList.VerticalAlignment = Enum.VerticalAlignment.Center
-    self.TabList.Padding = UDim.new(0, 5)
-    self.TabList.Parent = self.TabContainer
+    -- Tab Layout
+    local tabLayout = Instance.new("UIListLayout")
+    tabLayout.FillDirection = Enum.FillDirection.Horizontal
+    tabLayout.HorizontalAlignment = Enum.HorizontalAlignment.Left
+    tabLayout.VerticalAlignment = Enum.VerticalAlignment.Center
+    tabLayout.Padding = UDim.new(0, 5)
+    tabLayout.Parent = self.TabContainer
     
-    CreatePadding(self.TabContainer, 5)
+    local tabPadding = Instance.new("UIPadding")
+    tabPadding.PaddingTop = UDim.new(0, 5)
+    tabPadding.PaddingBottom = UDim.new(0, 5)
+    tabPadding.PaddingLeft = UDim.new(0, 5)
+    tabPadding.PaddingRight = UDim.new(0, 5)
+    tabPadding.Parent = self.TabContainer
     
     -- Content Container
     self.ContentContainer = Instance.new("Frame")
@@ -355,831 +165,441 @@ function Compkiller:CreateWindow()
     self.ContentContainer.BackgroundTransparency = 1
     self.ContentContainer.BorderSizePixel = 0
     self.ContentContainer.Parent = self.Window
-end
-
-function Compkiller:SetupKeybind()
+    
+    -- Keybind Setup
     UserInputService.InputBegan:Connect(function(input, gameProcessed)
         if gameProcessed then return end
-        
         if input.KeyCode == Enum.KeyCode[self.Keybind] then
-            self:Toggle()
-        end
-    end)
-end
-
-function Compkiller:Toggle()
-    self.Visible = not self.Visible
-    self.Gui.Enabled = self.Visible
-end
-
--- Tab System
-function Compkiller:DrawTab(options)
-    options = options or {}
-    local name = options.Name or "Tab"
-    local icon = options.Icon or ""
-    
-    local tab = {
-        Name = name,
-        Icon = icon,
-        Sections = {},
-        Visible = false,
-        Window = self
-    }
-    
-    -- Tab Button
-    tab.Button = Instance.new("TextButton")
-    tab.Button.Name = name .. "Tab"
-    tab.Button.Size = UDim2.new(0, 100, 1, -10)
-    tab.Button.BackgroundColor3 = Compkiller.Colors.BlockColor
-    tab.Button.BorderSizePixel = 0
-    tab.Button.Text = name
-    tab.Button.TextColor3 = Compkiller.Colors.SwitchColor
-    tab.Button.TextSize = 14
-    tab.Button.Font = Compkiller.Config.Font
-    tab.Button.Parent = self.TabContainer
-    
-    CreateCorner(tab.Button, 4)
-    CreateStroke(tab.Button, Compkiller.Colors.StrokeColor)
-    
-    -- Tab Content
-    tab.Content = Instance.new("Frame")
-    tab.Content.Name = name .. "Content"
-    tab.Content.Size = UDim2.new(1, 0, 1, 0)
-    tab.Content.Position = UDim2.new(0, 0, 0, 0)
-    tab.Content.BackgroundTransparency = 1
-    tab.Content.BorderSizePixel = 0
-    tab.Content.Visible = false
-    tab.Content.Parent = self.ContentContainer
-    
-    -- Left and Right Sections
-    tab.LeftSection = Instance.new("Frame")
-    tab.LeftSection.Name = "LeftSection"
-    tab.LeftSection.Size = UDim2.new(0.5, -5, 1, 0)
-    tab.LeftSection.Position = UDim2.new(0, 0, 0, 0)
-    tab.LeftSection.BackgroundTransparency = 1
-    tab.LeftSection.Parent = tab.Content
-    
-    tab.RightSection = Instance.new("Frame")
-    tab.RightSection.Name = "RightSection"
-    tab.RightSection.Size = UDim2.new(0.5, -5, 1, 0)
-    tab.RightSection.Position = UDim2.new(0.5, 5, 0, 0)
-    tab.RightSection.BackgroundTransparency = 1
-    tab.RightSection.Parent = tab.Content
-    
-    -- Section Layouts
-    local leftLayout = Instance.new("UIListLayout")
-    leftLayout.FillDirection = Enum.FillDirection.Vertical
-    leftLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
-    leftLayout.VerticalAlignment = Enum.VerticalAlignment.Top
-    leftLayout.Padding = UDim.new(0, 10)
-    leftLayout.Parent = tab.LeftSection
-    
-    local rightLayout = Instance.new("UIListLayout")
-    rightLayout.FillDirection = Enum.FillDirection.Vertical
-    rightLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
-    rightLayout.VerticalAlignment = Enum.VerticalAlignment.Top
-    rightLayout.Padding = UDim.new(0, 10)
-    rightLayout.Parent = tab.RightSection
-    
-    CreatePadding(tab.LeftSection, 10)
-    CreatePadding(tab.RightSection, 10)
-    
-    -- Tab Button Events
-    tab.Button.MouseButton1Click:Connect(function()
-        self:SelectTab(tab)
-    end)
-    
-    tab.Button.MouseEnter:Connect(function()
-        CreateTween(tab.Button, {BackgroundColor3 = Compkiller.Colors.MouseEnter})
-    end)
-    
-    tab.Button.MouseLeave:Connect(function()
-        if tab ~= self.CurrentTab then
-            CreateTween(tab.Button, {BackgroundColor3 = Compkiller.Colors.BlockColor})
+            self.Visible = not self.Visible
+            self.Gui.Enabled = self.Visible
         end
     end)
     
-    -- Tab Methods
-    function tab:DrawSection(options)
+    -- Tab Functions
+    function self:DrawTab(options)
         options = options or {}
-        local sectionName = options.Name or "Section"
-        local position = options.Position or "left"
+        local name = options.Name or "Tab"
         
-        local section = {
-            Name = sectionName,
-            Tab = self,
-            Elements = {}
+        local tab = {
+            Name = name,
+            Sections = {},
+            Visible = false,
+            Window = self
         }
         
-        -- Section Frame
-        section.Frame = Instance.new("Frame")
-        section.Frame.Name = sectionName .. "Section"
-        section.Frame.Size = UDim2.new(1, 0, 0, 200)
-        section.Frame.BackgroundColor3 = Compkiller.Colors.BlockColor
-        section.Frame.BorderSizePixel = 0
-        section.Frame.Parent = position == "left" and self.LeftSection or self.RightSection
+        -- Tab Button
+        tab.Button = Instance.new("TextButton")
+        tab.Button.Name = name .. "Tab"
+        tab.Button.Size = UDim2.new(0, 100, 1, -10)
+        tab.Button.BackgroundColor3 = Compkiller.Colors.BlockColor
+        tab.Button.BorderSizePixel = 0
+        tab.Button.Text = name
+        tab.Button.TextColor3 = Compkiller.Colors.SwitchColor
+        tab.Button.TextSize = 14
+        tab.Button.Font = Enum.Font.Gotham
+        tab.Button.Parent = self.TabContainer
         
-        CreateCorner(section.Frame, 6)
-        CreateStroke(section.Frame, Compkiller.Colors.StrokeColor)
+        CreateCorner(tab.Button, 4)
+        CreateStroke(tab.Button, Compkiller.Colors.StrokeColor)
         
-        -- Section Title
-        section.Title = Instance.new("TextLabel")
-        section.Title.Name = "Title"
-        section.Title.Size = UDim2.new(1, -20, 0, 30)
-        section.Title.Position = UDim2.new(0, 10, 0, 5)
-        section.Title.BackgroundTransparency = 1
-        section.Title.Text = sectionName
-        section.Title.TextColor3 = Compkiller.Colors.SwitchColor
-        section.Title.TextSize = 16
-        section.Title.Font = Compkiller.Config.Font
-        section.Title.TextXAlignment = Enum.TextXAlignment.Left
-        section.Title.Parent = section.Frame
+        -- Tab Content
+        tab.Content = Instance.new("Frame")
+        tab.Content.Name = name .. "Content"
+        tab.Content.Size = UDim2.new(1, 0, 1, 0)
+        tab.Content.Position = UDim2.new(0, 0, 0, 0)
+        tab.Content.BackgroundTransparency = 1
+        tab.Content.BorderSizePixel = 0
+        tab.Content.Visible = false
+        tab.Content.Parent = self.ContentContainer
         
-        -- Section Content
-        section.Content = Instance.new("Frame")
-        section.Content.Name = "Content"
-        section.Content.Size = UDim2.new(1, -20, 1, -40)
-        section.Content.Position = UDim2.new(0, 10, 0, 35)
-        section.Content.BackgroundTransparency = 1
-        section.Content.Parent = section.Frame
+        -- Left and Right Sections
+        tab.LeftSection = Instance.new("Frame")
+        tab.LeftSection.Name = "LeftSection"
+        tab.LeftSection.Size = UDim2.new(0.5, -5, 1, 0)
+        tab.LeftSection.Position = UDim2.new(0, 0, 0, 0)
+        tab.LeftSection.BackgroundTransparency = 1
+        tab.LeftSection.Parent = tab.Content
         
-        -- Content Layout
-        section.Layout = Instance.new("UIListLayout")
-        section.Layout.FillDirection = Enum.FillDirection.Vertical
-        section.Layout.HorizontalAlignment = Enum.HorizontalAlignment.Center
-        section.Layout.VerticalAlignment = Enum.VerticalAlignment.Top
-        section.Layout.Padding = UDim.new(0, 8)
-        section.Layout.Parent = section.Content
+        tab.RightSection = Instance.new("Frame")
+        tab.RightSection.Name = "RightSection"
+        tab.RightSection.Size = UDim2.new(0.5, -5, 1, 0)
+        tab.RightSection.Position = UDim2.new(0.5, 5, 0, 0)
+        tab.RightSection.BackgroundTransparency = 1
+        tab.RightSection.Parent = tab.Content
         
-        -- Auto-resize section based on content
-        section.Layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
-            section.Frame.Size = UDim2.new(1, 0, 0, section.Layout.AbsoluteContentSize.Y + 50)
+        -- Section Layouts
+        local leftLayout = Instance.new("UIListLayout")
+        leftLayout.FillDirection = Enum.FillDirection.Vertical
+        leftLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+        leftLayout.VerticalAlignment = Enum.VerticalAlignment.Top
+        leftLayout.Padding = UDim.new(0, 10)
+        leftLayout.Parent = tab.LeftSection
+        
+        local rightLayout = Instance.new("UIListLayout")
+        rightLayout.FillDirection = Enum.FillDirection.Vertical
+        rightLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+        rightLayout.VerticalAlignment = Enum.VerticalAlignment.Top
+        rightLayout.Padding = UDim.new(0, 10)
+        rightLayout.Parent = tab.RightSection
+        
+        local leftPadding = Instance.new("UIPadding")
+        leftPadding.PaddingTop = UDim.new(0, 10)
+        leftPadding.PaddingBottom = UDim.new(0, 10)
+        leftPadding.PaddingLeft = UDim.new(0, 10)
+        leftPadding.PaddingRight = UDim.new(0, 10)
+        leftPadding.Parent = tab.LeftSection
+        
+        local rightPadding = Instance.new("UIPadding")
+        rightPadding.PaddingTop = UDim.new(0, 10)
+        rightPadding.PaddingBottom = UDim.new(0, 10)
+        rightPadding.PaddingLeft = UDim.new(0, 10)
+        rightPadding.PaddingRight = UDim.new(0, 10)
+        rightPadding.Parent = tab.RightSection
+        
+        -- Tab Button Events
+        tab.Button.MouseButton1Click:Connect(function()
+            self:SelectTab(tab)
         end)
         
-        -- Section Methods
-        function section:AddToggle(options)
-            options = options or {}
-            local name = options.Name or "Toggle"
-            local default = options.Default or false
-            local callback = options.Callback or function() end
-            
-            local toggle = {
-                Name = name,
-                Value = default,
-                Callback = callback
-            }
-            
-            -- Toggle Frame
-            toggle.Frame = Instance.new("Frame")
-            toggle.Frame.Name = name .. "Toggle"
-            toggle.Frame.Size = UDim2.new(1, 0, 0, 35)
-            toggle.Frame.BackgroundColor3 = Compkiller.Colors.BlockBackground
-            toggle.Frame.BorderSizePixel = 0
-            toggle.Frame.Parent = self.Content
-            
-            CreateCorner(toggle.Frame, 4)
-            CreateStroke(toggle.Frame, Compkiller.Colors.StrokeColor)
-            
-            -- Toggle Label
-            toggle.Label = Instance.new("TextLabel")
-            toggle.Label.Name = "Label"
-            toggle.Label.Size = UDim2.new(1, -45, 1, 0)
-            toggle.Label.Position = UDim2.new(0, 10, 0, 0)
-            toggle.Label.BackgroundTransparency = 1
-            toggle.Label.Text = name
-            toggle.Label.TextColor3 = Compkiller.Colors.SwitchColor
-            toggle.Label.TextSize = 14
-            toggle.Label.Font = Compkiller.Config.Font
-            toggle.Label.TextXAlignment = Enum.TextXAlignment.Left
-            toggle.Label.Parent = toggle.Frame
-            
-            -- Toggle Button
-            toggle.Button = Instance.new("TextButton")
-            toggle.Button.Name = "Button"
-            toggle.Button.Size = UDim2.new(0, 25, 0, 25)
-            toggle.Button.Position = UDim2.new(1, -30, 0.5, -12.5)
-            toggle.Button.BackgroundColor3 = default and Compkiller.Colors.Toggle or Compkiller.Colors.BlockColor
-            toggle.Button.BorderSizePixel = 0
-            toggle.Button.Text = ""
-            toggle.Button.Parent = toggle.Frame
-            
-            CreateCorner(toggle.Button, 4)
-            CreateStroke(toggle.Button, Compkiller.Colors.StrokeColor)
-            
-            -- Toggle Functionality
-            toggle.Button.MouseButton1Click:Connect(function()
-                toggle.Value = not toggle.Value
-                CreateTween(toggle.Button, {
-                    BackgroundColor3 = toggle.Value and Compkiller.Colors.Toggle or Compkiller.Colors.BlockColor
-                })
-                callback(toggle.Value)
-            end)
-            
-            toggle.Button.MouseEnter:Connect(function()
-                CreateTween(toggle.Frame, {BackgroundColor3 = Compkiller.Colors.MouseEnter})
-            end)
-            
-            toggle.Button.MouseLeave:Connect(function()
-                CreateTween(toggle.Frame, {BackgroundColor3 = Compkiller.Colors.BlockBackground})
-            end)
-            
-            table.insert(self.Elements, toggle)
-            return toggle
-        end
+        tab.Button.MouseEnter:Connect(function()
+            CreateTween(tab.Button, {BackgroundColor3 = Compkiller.Colors.MouseEnter})
+        end)
         
-        function section:AddSlider(options)
-            options = options or {}
-            local name = options.Name or "Slider"
-            local min = options.Min or 0
-            local max = options.Max or 100
-            local default = options.Default or min
-            local callback = options.Callback or function() end
-            
-            local slider = {
-                Name = name,
-                Min = min,
-                Max = max,
-                Value = default,
-                Callback = callback
-            }
-            
-            -- Slider Frame
-            slider.Frame = Instance.new("Frame")
-            slider.Frame.Name = name .. "Slider"
-            slider.Frame.Size = UDim2.new(1, 0, 0, 50)
-            slider.Frame.BackgroundColor3 = Compkiller.Colors.BlockBackground
-            slider.Frame.BorderSizePixel = 0
-            slider.Frame.Parent = self.Content
-            
-            CreateCorner(slider.Frame, 4)
-            CreateStroke(slider.Frame, Compkiller.Colors.StrokeColor)
-            
-            -- Slider Label
-            slider.Label = Instance.new("TextLabel")
-            slider.Label.Name = "Label"
-            slider.Label.Size = UDim2.new(0.7, 0, 0, 20)
-            slider.Label.Position = UDim2.new(0, 10, 0, 5)
-            slider.Label.BackgroundTransparency = 1
-            slider.Label.Text = name
-            slider.Label.TextColor3 = Compkiller.Colors.SwitchColor
-            slider.Label.TextSize = 14
-            slider.Label.Font = Compkiller.Config.Font
-            slider.Label.TextXAlignment = Enum.TextXAlignment.Left
-            slider.Label.Parent = slider.Frame
-            
-            -- Value Label
-            slider.ValueLabel = Instance.new("TextLabel")
-            slider.ValueLabel.Name = "ValueLabel"
-            slider.ValueLabel.Size = UDim2.new(0.3, -10, 0, 20)
-            slider.ValueLabel.Position = UDim2.new(0.7, 0, 0, 5)
-            slider.ValueLabel.BackgroundTransparency = 1
-            slider.ValueLabel.Text = tostring(default)
-            slider.ValueLabel.TextColor3 = Compkiller.Colors.SwitchColor
-            slider.ValueLabel.TextSize = 14
-            slider.ValueLabel.Font = Compkiller.Config.Font
-            slider.ValueLabel.TextXAlignment = Enum.TextXAlignment.Right
-            slider.ValueLabel.Parent = slider.Frame
-            
-            -- Slider Track
-            slider.Track = Instance.new("Frame")
-            slider.Track.Name = "Track"
-            slider.Track.Size = UDim2.new(1, -20, 0, 4)
-            slider.Track.Position = UDim2.new(0, 10, 1, -15)
-            slider.Track.BackgroundColor3 = Compkiller.Colors.BlockColor
-            slider.Track.BorderSizePixel = 0
-            slider.Track.Parent = slider.Frame
-            
-            CreateCorner(slider.Track, 2)
-            
-            -- Slider Fill
-            slider.Fill = Instance.new("Frame")
-            slider.Fill.Name = "Fill"
-            slider.Fill.Size = UDim2.new((default - min) / (max - min), 0, 1, 0)
-            slider.Fill.Position = UDim2.new(0, 0, 0, 0)
-            slider.Fill.BackgroundColor3 = Compkiller.Colors.Highlight
-            slider.Fill.BorderSizePixel = 0
-            slider.Fill.Parent = slider.Track
-            
-            CreateCorner(slider.Fill, 2)
-            
-            -- Slider Knob
-            slider.Knob = Instance.new("Frame")
-            slider.Knob.Name = "Knob"
-            slider.Knob.Size = UDim2.new(0, 12, 0, 12)
-            slider.Knob.Position = UDim2.new((default - min) / (max - min), -6, 0.5, -6)
-            slider.Knob.BackgroundColor3 = Compkiller.Colors.SwitchColor
-            slider.Knob.BorderSizePixel = 0
-            slider.Knob.Parent = slider.Track
-            
-            CreateCorner(slider.Knob, 6)
-            
-            -- Slider Functionality
-            local dragging = false
-            
-            slider.Track.InputBegan:Connect(function(input)
-                if input.UserInputType == Enum.UserInputType.MouseButton1 then
-                    dragging = true
-                end
-            end)
-            
-            UserInputService.InputEnded:Connect(function(input)
-                if input.UserInputType == Enum.UserInputType.MouseButton1 then
-                    dragging = false
-                end
-            end)
-            
-            UserInputService.InputChanged:Connect(function(input)
-                if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-                    local trackPosition = slider.Track.AbsolutePosition.X
-                    local trackSize = slider.Track.AbsoluteSize.X
-                    local mouseX = input.Position.X
-                    
-                    local percentage = math.clamp((mouseX - trackPosition) / trackSize, 0, 1)
-                    local value = math.floor(min + (max - min) * percentage)
-                    
-                    slider.Value = value
-                    slider.ValueLabel.Text = tostring(value)
-                    
-                    CreateTween(slider.Fill, {Size = UDim2.new(percentage, 0, 1, 0)})
-                    CreateTween(slider.Knob, {Position = UDim2.new(percentage, -6, 0.5, -6)})
-                    
-                    callback(value)
-                end
-            end)
-            
-            table.insert(self.Elements, slider)
-            return slider
-        end
-        
-        function section:AddDropdown(options)
-            options = options or {}
-            local name = options.Name or "Dropdown"
-            local list = options.List or {"Option 1", "Option 2"}
-            local default = options.Default or list[1]
-            local callback = options.Callback or function() end
-            
-            local dropdown = {
-                Name = name,
-                List = list,
-                Value = default,
-                Callback = callback,
-                Open = false
-            }
-            
-            -- Dropdown Frame
-            dropdown.Frame = Instance.new("Frame")
-            dropdown.Frame.Name = name .. "Dropdown"
-            dropdown.Frame.Size = UDim2.new(1, 0, 0, 35)
-            dropdown.Frame.BackgroundColor3 = Compkiller.Colors.BlockBackground
-            dropdown.Frame.BorderSizePixel = 0
-            dropdown.Frame.Parent = self.Content
-            
-            CreateCorner(dropdown.Frame, 4)
-            CreateStroke(dropdown.Frame, Compkiller.Colors.StrokeColor)
-            
-            -- Dropdown Label
-            dropdown.Label = Instance.new("TextLabel")
-            dropdown.Label.Name = "Label"
-            dropdown.Label.Size = UDim2.new(0.4, 0, 1, 0)
-            dropdown.Label.Position = UDim2.new(0, 10, 0, 0)
-            dropdown.Label.BackgroundTransparency = 1
-            dropdown.Label.Text = name
-            dropdown.Label.TextColor3 = Compkiller.Colors.SwitchColor
-            dropdown.Label.TextSize = 14
-            dropdown.Label.Font = Compkiller.Config.Font
-            dropdown.Label.TextXAlignment = Enum.TextXAlignment.Left
-            dropdown.Label.Parent = dropdown.Frame
-            
-            -- Dropdown Button
-            dropdown.Button = Instance.new("TextButton")
-            dropdown.Button.Name = "Button"
-            dropdown.Button.Size = UDim2.new(0.6, -15, 0, 25)
-            dropdown.Button.Position = UDim2.new(0.4, 5, 0.5, -12.5)
-            dropdown.Button.BackgroundColor3 = Compkiller.Colors.DropColor
-            dropdown.Button.BorderSizePixel = 0
-            dropdown.Button.Text = default
-            dropdown.Button.TextColor3 = Compkiller.Colors.SwitchColor
-            dropdown.Button.TextSize = 12
-            dropdown.Button.Font = Compkiller.Config.Font
-            dropdown.Button.Parent = dropdown.Frame
-            
-            CreateCorner(dropdown.Button, 4)
-            CreateStroke(dropdown.Button, Compkiller.Colors.StrokeColor)
-            
-            -- Dropdown Arrow
-            dropdown.Arrow = Instance.new("TextLabel")
-            dropdown.Arrow.Name = "Arrow"
-            dropdown.Arrow.Size = UDim2.new(0, 20, 1, 0)
-            dropdown.Arrow.Position = UDim2.new(1, -20, 0, 0)
-            dropdown.Arrow.BackgroundTransparency = 1
-            dropdown.Arrow.Text = "▼"
-            dropdown.Arrow.TextColor3 = Compkiller.Colors.SwitchColor
-            dropdown.Arrow.TextSize = 10
-            dropdown.Arrow.Font = Compkiller.Config.Font
-            dropdown.Arrow.Parent = dropdown.Button
-            
-            -- Dropdown List
-            dropdown.ListFrame = Instance.new("Frame")
-            dropdown.ListFrame.Name = "ListFrame"
-            dropdown.ListFrame.Size = UDim2.new(0.6, -15, 0, #list * 25)
-            dropdown.ListFrame.Position = UDim2.new(0.4, 5, 1, 5)
-            dropdown.ListFrame.BackgroundColor3 = Compkiller.Colors.DropColor
-            dropdown.ListFrame.BorderSizePixel = 0
-            dropdown.ListFrame.Visible = false
-            dropdown.ListFrame.ZIndex = 10
-            dropdown.ListFrame.Parent = dropdown.Frame
-            
-            CreateCorner(dropdown.ListFrame, 4)
-            CreateStroke(dropdown.ListFrame, Compkiller.Colors.StrokeColor)
-            
-            -- List Layout
-            local listLayout = Instance.new("UIListLayout")
-            listLayout.FillDirection = Enum.FillDirection.Vertical
-            listLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
-            listLayout.VerticalAlignment = Enum.VerticalAlignment.Top
-            listLayout.Parent = dropdown.ListFrame
-            
-            -- Create list items
-            for _, item in ipairs(list) do
-                local itemButton = Instance.new("TextButton")
-                itemButton.Name = item
-                itemButton.Size = UDim2.new(1, 0, 0, 25)
-                itemButton.BackgroundColor3 = Compkiller.Colors.DropColor
-                itemButton.BorderSizePixel = 0
-                itemButton.Text = item
-                itemButton.TextColor3 = Compkiller.Colors.SwitchColor
-                itemButton.TextSize = 12
-                itemButton.Font = Compkiller.Config.Font
-                itemButton.Parent = dropdown.ListFrame
-                
-                itemButton.MouseButton1Click:Connect(function()
-                    dropdown.Value = item
-                    dropdown.Button.Text = item
-                    dropdown.Open = false
-                    dropdown.ListFrame.Visible = false
-                    CreateTween(dropdown.Arrow, {Rotation = 0})
-                    callback(item)
-                end)
-                
-                itemButton.MouseEnter:Connect(function()
-                    CreateTween(itemButton, {BackgroundColor3 = Compkiller.Colors.MouseEnter})
-                end)
-                
-                itemButton.MouseLeave:Connect(function()
-                    CreateTween(itemButton, {BackgroundColor3 = Compkiller.Colors.DropColor})
-                end)
+        tab.Button.MouseLeave:Connect(function()
+            if tab ~= self.CurrentTab then
+                CreateTween(tab.Button, {BackgroundColor3 = Compkiller.Colors.BlockColor})
             end
-            
-            -- Dropdown Toggle
-            dropdown.Button.MouseButton1Click:Connect(function()
-                dropdown.Open = not dropdown.Open
-                dropdown.ListFrame.Visible = dropdown.Open
-                CreateTween(dropdown.Arrow, {Rotation = dropdown.Open and 180 or 0})
-            end)
-            
-            table.insert(self.Elements, dropdown)
-            return dropdown
-        end
+        end)
         
-        function section:AddColorPicker(options)
+        -- Section Function
+        function tab:DrawSection(options)
             options = options or {}
-            local name = options.Name or "Color Picker"
-            local default = options.Default or Color3.fromRGB(255, 255, 255)
-            local callback = options.Callback or function() end
+            local sectionName = options.Name or "Section"
+            local position = options.Position or "left"
             
-            local colorPicker = {
-                Name = name,
-                Value = default,
-                Callback = callback
+            local section = {
+                Name = sectionName,
+                Tab = self,
+                Elements = {}
             }
             
-            -- Color Picker Frame
-            colorPicker.Frame = Instance.new("Frame")
-            colorPicker.Frame.Name = name .. "ColorPicker"
-            colorPicker.Frame.Size = UDim2.new(1, 0, 0, 35)
-            colorPicker.Frame.BackgroundColor3 = Compkiller.Colors.BlockBackground
-            colorPicker.Frame.BorderSizePixel = 0
-            colorPicker.Frame.Parent = self.Content
+            -- Section Frame
+            section.Frame = Instance.new("Frame")
+            section.Frame.Name = sectionName .. "Section"
+            section.Frame.Size = UDim2.new(1, 0, 0, 200)
+            section.Frame.BackgroundColor3 = Compkiller.Colors.BlockColor
+            section.Frame.BorderSizePixel = 0
+            section.Frame.Parent = position == "left" and self.LeftSection or self.RightSection
             
-            CreateCorner(colorPicker.Frame, 4)
-            CreateStroke(colorPicker.Frame, Compkiller.Colors.StrokeColor)
+            CreateCorner(section.Frame, 6)
+            CreateStroke(section.Frame, Compkiller.Colors.StrokeColor)
             
-            -- Color Picker Label
-            colorPicker.Label = Instance.new("TextLabel")
-            colorPicker.Label.Name = "Label"
-            colorPicker.Label.Size = UDim2.new(0.7, 0, 1, 0)
-            colorPicker.Label.Position = UDim2.new(0, 10, 0, 0)
-            colorPicker.Label.BackgroundTransparency = 1
-            colorPicker.Label.Text = name
-            colorPicker.Label.TextColor3 = Compkiller.Colors.SwitchColor
-            colorPicker.Label.TextSize = 14
-            colorPicker.Label.Font = Compkiller.Config.Font
-            colorPicker.Label.TextXAlignment = Enum.TextXAlignment.Left
-            colorPicker.Label.Parent = colorPicker.Frame
+            -- Section Title
+            section.Title = Instance.new("TextLabel")
+            section.Title.Name = "Title"
+            section.Title.Size = UDim2.new(1, -20, 0, 30)
+            section.Title.Position = UDim2.new(0, 10, 0, 5)
+            section.Title.BackgroundTransparency = 1
+            section.Title.Text = sectionName
+            section.Title.TextColor3 = Compkiller.Colors.SwitchColor
+            section.Title.TextSize = 16
+            section.Title.Font = Enum.Font.Gotham
+            section.Title.TextXAlignment = Enum.TextXAlignment.Left
+            section.Title.Parent = section.Frame
             
-            -- Color Display
-            colorPicker.ColorDisplay = Instance.new("Frame")
-            colorPicker.ColorDisplay.Name = "ColorDisplay"
-            colorPicker.ColorDisplay.Size = UDim2.new(0, 25, 0, 25)
-            colorPicker.ColorDisplay.Position = UDim2.new(1, -30, 0.5, -12.5)
-            colorPicker.ColorDisplay.BackgroundColor3 = default
-            colorPicker.ColorDisplay.BorderSizePixel = 0
-            colorPicker.ColorDisplay.Parent = colorPicker.Frame
+            -- Section Content
+            section.Content = Instance.new("Frame")
+            section.Content.Name = "Content"
+            section.Content.Size = UDim2.new(1, -20, 1, -40)
+            section.Content.Position = UDim2.new(0, 10, 0, 35)
+            section.Content.BackgroundTransparency = 1
+            section.Content.Parent = section.Frame
             
-            CreateCorner(colorPicker.ColorDisplay, 4)
-            CreateStroke(colorPicker.ColorDisplay, Compkiller.Colors.StrokeColor)
+            -- Content Layout
+            section.Layout = Instance.new("UIListLayout")
+            section.Layout.FillDirection = Enum.FillDirection.Vertical
+            section.Layout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+            section.Layout.VerticalAlignment = Enum.VerticalAlignment.Top
+            section.Layout.Padding = UDim.new(0, 8)
+            section.Layout.Parent = section.Content
             
-            -- Color Picker Button
-            colorPicker.Button = Instance.new("TextButton")
-            colorPicker.Button.Name = "Button"
-            colorPicker.Button.Size = UDim2.new(0, 25, 0, 25)
-            colorPicker.Button.Position = UDim2.new(1, -30, 0.5, -12.5)
-            colorPicker.Button.BackgroundTransparency = 1
-            colorPicker.Button.Text = ""
-            colorPicker.Button.Parent = colorPicker.Frame
+            -- Auto-resize section
+            section.Layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+                section.Frame.Size = UDim2.new(1, 0, 0, section.Layout.AbsoluteContentSize.Y + 50)
+            end)
             
-            -- Simple color picker (basic implementation)
-            colorPicker.Button.MouseButton1Click:Connect(function()
-                -- This would open a color picker window
-                -- For now, we'll cycle through some preset colors
-                local colors = {
-                    Color3.fromRGB(255, 255, 255), -- White
-                    Color3.fromRGB(0, 0, 0), -- Black
-                    Color3.fromRGB(128, 128, 128), -- Gray
-                    Color3.fromRGB(64, 64, 64), -- Dark Gray
-                    Color3.fromRGB(192, 192, 192), -- Light Gray
+            -- Toggle Function
+            function section:AddToggle(options)
+                options = options or {}
+                local name = options.Name or "Toggle"
+                local default = options.Default or false
+                local callback = options.Callback or function() end
+                
+                local toggle = {
+                    Name = name,
+                    Value = default,
+                    Callback = callback
                 }
                 
-                local currentIndex = 1
-                for i, color in ipairs(colors) do
-                    if colorPicker.Value == color then
-                        currentIndex = i
-                        break
-                    end
-                end
+                -- Toggle Frame
+                toggle.Frame = Instance.new("Frame")
+                toggle.Frame.Name = name .. "Toggle"
+                toggle.Frame.Size = UDim2.new(1, 0, 0, 35)
+                toggle.Frame.BackgroundColor3 = Compkiller.Colors.BlockBackground
+                toggle.Frame.BorderSizePixel = 0
+                toggle.Frame.Parent = self.Content
                 
-                currentIndex = currentIndex % #colors + 1
-                colorPicker.Value = colors[currentIndex]
-                colorPicker.ColorDisplay.BackgroundColor3 = colorPicker.Value
-                callback(colorPicker.Value)
-            end)
-            
-            table.insert(self.Elements, colorPicker)
-            return colorPicker
-        end
-        
-        function section:AddTextBox(options)
-            options = options or {}
-            local name = options.Name or "Text Box"
-            local default = options.Default or ""
-            local placeholder = options.Placeholder or "Enter text..."
-            local callback = options.Callback or function() end
-            
-            local textBox = {
-                Name = name,
-                Value = default,
-                Callback = callback
-            }
-            
-            -- Text Box Frame
-            textBox.Frame = Instance.new("Frame")
-            textBox.Frame.Name = name .. "TextBox"
-            textBox.Frame.Size = UDim2.new(1, 0, 0, 35)
-            textBox.Frame.BackgroundColor3 = Compkiller.Colors.BlockBackground
-            textBox.Frame.BorderSizePixel = 0
-            textBox.Frame.Parent = self.Content
-            
-            CreateCorner(textBox.Frame, 4)
-            CreateStroke(textBox.Frame, Compkiller.Colors.StrokeColor)
-            
-            -- Text Box Label
-            textBox.Label = Instance.new("TextLabel")
-            textBox.Label.Name = "Label"
-            textBox.Label.Size = UDim2.new(0.4, 0, 1, 0)
-            textBox.Label.Position = UDim2.new(0, 10, 0, 0)
-            textBox.Label.BackgroundTransparency = 1
-            textBox.Label.Text = name
-            textBox.Label.TextColor3 = Compkiller.Colors.SwitchColor
-            textBox.Label.TextSize = 14
-            textBox.Label.Font = Compkiller.Config.Font
-            textBox.Label.TextXAlignment = Enum.TextXAlignment.Left
-            textBox.Label.Parent = textBox.Frame
-            
-            -- Text Box Input
-            textBox.Input = Instance.new("TextBox")
-            textBox.Input.Name = "Input"
-            textBox.Input.Size = UDim2.new(0.6, -15, 0, 25)
-            textBox.Input.Position = UDim2.new(0.4, 5, 0.5, -12.5)
-            textBox.Input.BackgroundColor3 = Compkiller.Colors.DropColor
-            textBox.Input.BorderSizePixel = 0
-            textBox.Input.Text = default
-            textBox.Input.PlaceholderText = placeholder
-            textBox.Input.TextColor3 = Compkiller.Colors.SwitchColor
-            textBox.Input.PlaceholderColor3 = Color3.fromRGB(128, 128, 128)
-            textBox.Input.TextSize = 12
-            textBox.Input.Font = Compkiller.Config.Font
-            textBox.Input.Parent = textBox.Frame
-            
-            CreateCorner(textBox.Input, 4)
-            CreateStroke(textBox.Input, Compkiller.Colors.StrokeColor)
-            
-            -- Text Box Events
-            textBox.Input.FocusLost:Connect(function(enterPressed)
-                if enterPressed then
-                    textBox.Value = textBox.Input.Text
-                    callback(textBox.Value)
-                end
-            end)
-            
-            textBox.Input.Focused:Connect(function()
-                CreateTween(textBox.Input, {BackgroundColor3 = Compkiller.Colors.MouseEnter})
-            end)
-            
-            textBox.Input.FocusLost:Connect(function()
-                CreateTween(textBox.Input, {BackgroundColor3 = Compkiller.Colors.DropColor})
-            end)
-            
-            table.insert(self.Elements, textBox)
-            return textBox
-        end
-        
-        function section:AddButton(options)
-            options = options or {}
-            local name = options.Name or "Button"
-            local callback = options.Callback or function() end
-            local risky = options.Risky or false
-            
-            local button = {
-                Name = name,
-                Callback = callback,
-                Risky = risky
-            }
-            
-            -- Button Frame
-            button.Frame = Instance.new("TextButton")
-            button.Frame.Name = name .. "Button"
-            button.Frame.Size = UDim2.new(1, 0, 0, 35)
-            button.Frame.BackgroundColor3 = risky and Compkiller.Colors.Risky or Compkiller.Colors.Highlight
-            button.Frame.BorderSizePixel = 0
-            button.Frame.Text = name
-            button.Frame.TextColor3 = risky and Color3.fromRGB(0, 0, 0) or Color3.fromRGB(0, 0, 0)
-            button.Frame.TextSize = 14
-            button.Frame.Font = Compkiller.Config.Font
-            button.Frame.Parent = self.Content
-            
-            CreateCorner(button.Frame, 4)
-            CreateStroke(button.Frame, Compkiller.Colors.StrokeColor)
-            
-            -- Button Events
-            button.Frame.MouseButton1Click:Connect(function()
-                callback()
-            end)
-            
-            button.Frame.MouseEnter:Connect(function()
-                CreateTween(button.Frame, {
-                    BackgroundColor3 = risky and Color3.fromRGB(200, 200, 200) or Color3.fromRGB(200, 200, 200)
-                })
-            end)
-            
-            button.Frame.MouseLeave:Connect(function()
-                CreateTween(button.Frame, {
-                    BackgroundColor3 = risky and Compkiller.Colors.Risky or Compkiller.Colors.Highlight
-                })
-            end)
-            
-            table.insert(self.Elements, button)
-            return button
-        end
-        
-        table.insert(self.Sections, section)
-        return section
-    end
-    
-    -- Add tab to window
-    table.insert(self.Tabs, tab)
-    
-    -- Select first tab by default
-    if #self.Tabs == 1 then
-        self:SelectTab(tab)
-    end
-    
-    return tab
-end
-
-function Compkiller:SelectTab(tab)
-    -- Hide current tab
-    if self.CurrentTab then
-        self.CurrentTab.Content.Visible = false
-        CreateTween(self.CurrentTab.Button, {BackgroundColor3 = Compkiller.Colors.BlockColor})
-    end
-    
-    -- Show new tab
-    self.CurrentTab = tab
-    tab.Content.Visible = true
-    CreateTween(tab.Button, {BackgroundColor3 = Compkiller.Colors.Highlight})
-end
-
--- Configuration System
-function Compkiller:SaveConfig(name)
-    name = name or "default"
-    local config = {}
-    
-    for _, tab in ipairs(self.Tabs) do
-        config[tab.Name] = {}
-        for _, section in ipairs(tab.Sections) do
-            config[tab.Name][section.Name] = {}
-            for _, element in ipairs(section.Elements) do
-                config[tab.Name][section.Name][element.Name] = element.Value
+                CreateCorner(toggle.Frame, 4)
+                CreateStroke(toggle.Frame, Compkiller.Colors.StrokeColor)
+                
+                -- Toggle Label
+                toggle.Label = Instance.new("TextLabel")
+                toggle.Label.Name = "Label"
+                toggle.Label.Size = UDim2.new(1, -45, 1, 0)
+                toggle.Label.Position = UDim2.new(0, 10, 0, 0)
+                toggle.Label.BackgroundTransparency = 1
+                toggle.Label.Text = name
+                toggle.Label.TextColor3 = Compkiller.Colors.SwitchColor
+                toggle.Label.TextSize = 14
+                toggle.Label.Font = Enum.Font.Gotham
+                toggle.Label.TextXAlignment = Enum.TextXAlignment.Left
+                toggle.Label.Parent = toggle.Frame
+                
+                -- Toggle Button
+                toggle.Button = Instance.new("TextButton")
+                toggle.Button.Name = "Button"
+                toggle.Button.Size = UDim2.new(0, 25, 0, 25)
+                toggle.Button.Position = UDim2.new(1, -30, 0.5, -12.5)
+                toggle.Button.BackgroundColor3 = default and Compkiller.Colors.Toggle or Compkiller.Colors.BlockColor
+                toggle.Button.BorderSizePixel = 0
+                toggle.Button.Text = ""
+                toggle.Button.Parent = toggle.Frame
+                
+                CreateCorner(toggle.Button, 4)
+                CreateStroke(toggle.Button, Compkiller.Colors.StrokeColor)
+                
+                -- Toggle Events
+                toggle.Button.MouseButton1Click:Connect(function()
+                    toggle.Value = not toggle.Value
+                    CreateTween(toggle.Button, {
+                        BackgroundColor3 = toggle.Value and Compkiller.Colors.Toggle or Compkiller.Colors.BlockColor
+                    })
+                    callback(toggle.Value)
+                end)
+                
+                toggle.Button.MouseEnter:Connect(function()
+                    CreateTween(toggle.Frame, {BackgroundColor3 = Compkiller.Colors.MouseEnter})
+                end)
+                
+                toggle.Button.MouseLeave:Connect(function()
+                    CreateTween(toggle.Frame, {BackgroundColor3 = Compkiller.Colors.BlockBackground})
+                end)
+                
+                table.insert(self.Elements, toggle)
+                return toggle
             end
-        end
-    end
-    
-    local success, result = pcall(function()
-        writefile(self.ConfigFolder .. "/" .. name .. ".json", HttpService:JSONEncode(config))
-    end)
-    
-    if success then
-        self:Notify({
-            Title = "Config Saved",
-            Content = "Configuration saved as " .. name,
-            Duration = 2
-        })
-    else
-        self:Notify({
-            Title = "Save Failed",
-            Content = "Failed to save configuration",
-            Duration = 3
-        })
-    end
-end
-
-function Compkiller:LoadConfig(name)
-    name = name or "default"
-    local success, result = pcall(function()
-        return readfile(self.ConfigFolder .. "/" .. name .. ".json")
-    end)
-    
-    if success then
-        local config = HttpService:JSONDecode(result)
-        
-        for _, tab in ipairs(self.Tabs) do
-            if config[tab.Name] then
-                for _, section in ipairs(tab.Sections) do
-                    if config[tab.Name][section.Name] then
-                        for _, element in ipairs(section.Elements) do
-                            if config[tab.Name][section.Name][element.Name] then
-                                element.Value = config[tab.Name][section.Name][element.Name]
-                                -- Update UI element based on type
-                                if element.Button then -- Toggle
-                                    element.Button.BackgroundColor3 = element.Value and Compkiller.Colors.Toggle or Compkiller.Colors.BlockColor
-                                elseif element.ValueLabel then -- Slider
-                                    element.ValueLabel.Text = tostring(element.Value)
-                                    local percentage = (element.Value - element.Min) / (element.Max - element.Min)
-                                    element.Fill.Size = UDim2.new(percentage, 0, 1, 0)
-                                    element.Knob.Position = UDim2.new(percentage, -6, 0.5, -6)
-                                elseif element.Input then -- TextBox
-                                    element.Input.Text = element.Value
-                                elseif element.ColorDisplay then -- ColorPicker
-                                    element.ColorDisplay.BackgroundColor3 = element.Value
-                                end
-                                element.Callback(element.Value)
-                            end
-                        end
+            
+            -- Button Function
+            function section:AddButton(options)
+                options = options or {}
+                local name = options.Name or "Button"
+                local callback = options.Callback or function() end
+                local risky = options.Risky or false
+                
+                local button = {
+                    Name = name,
+                    Callback = callback,
+                    Risky = risky
+                }
+                
+                -- Button Frame
+                button.Frame = Instance.new("TextButton")
+                button.Frame.Name = name .. "Button"
+                button.Frame.Size = UDim2.new(1, 0, 0, 35)
+                button.Frame.BackgroundColor3 = risky and Compkiller.Colors.Risky or Compkiller.Colors.Highlight
+                button.Frame.BorderSizePixel = 0
+                button.Frame.Text = name
+                button.Frame.TextColor3 = Color3.fromRGB(0, 0, 0)
+                button.Frame.TextSize = 14
+                button.Frame.Font = Enum.Font.Gotham
+                button.Frame.Parent = self.Content
+                
+                CreateCorner(button.Frame, 4)
+                CreateStroke(button.Frame, Compkiller.Colors.StrokeColor)
+                
+                -- Button Events
+                button.Frame.MouseButton1Click:Connect(function()
+                    callback()
+                end)
+                
+                button.Frame.MouseEnter:Connect(function()
+                    CreateTween(button.Frame, {BackgroundColor3 = Color3.fromRGB(200, 200, 200)})
+                end)
+                
+                button.Frame.MouseLeave:Connect(function()
+                    CreateTween(button.Frame, {
+                        BackgroundColor3 = risky and Compkiller.Colors.Risky or Compkiller.Colors.Highlight
+                    })
+                end)
+                
+                table.insert(self.Elements, button)
+                return button
+            end
+            
+            -- Slider Function
+            function section:AddSlider(options)
+                options = options or {}
+                local name = options.Name or "Slider"
+                local min = options.Min or 0
+                local max = options.Max or 100
+                local default = options.Default or min
+                local callback = options.Callback or function() end
+                
+                local slider = {
+                    Name = name,
+                    Min = min,
+                    Max = max,
+                    Value = default,
+                    Callback = callback
+                }
+                
+                -- Slider Frame
+                slider.Frame = Instance.new("Frame")
+                slider.Frame.Name = name .. "Slider"
+                slider.Frame.Size = UDim2.new(1, 0, 0, 50)
+                slider.Frame.BackgroundColor3 = Compkiller.Colors.BlockBackground
+                slider.Frame.BorderSizePixel = 0
+                slider.Frame.Parent = self.Content
+                
+                CreateCorner(slider.Frame, 4)
+                CreateStroke(slider.Frame, Compkiller.Colors.StrokeColor)
+                
+                -- Slider Label
+                slider.Label = Instance.new("TextLabel")
+                slider.Label.Name = "Label"
+                slider.Label.Size = UDim2.new(0.7, 0, 0, 20)
+                slider.Label.Position = UDim2.new(0, 10, 0, 5)
+                slider.Label.BackgroundTransparency = 1
+                slider.Label.Text = name
+                slider.Label.TextColor3 = Compkiller.Colors.SwitchColor
+                slider.Label.TextSize = 14
+                slider.Label.Font = Enum.Font.Gotham
+                slider.Label.TextXAlignment = Enum.TextXAlignment.Left
+                slider.Label.Parent = slider.Frame
+                
+                -- Value Label
+                slider.ValueLabel = Instance.new("TextLabel")
+                slider.ValueLabel.Name = "ValueLabel"
+                slider.ValueLabel.Size = UDim2.new(0.3, -10, 0, 20)
+                slider.ValueLabel.Position = UDim2.new(0.7, 0, 0, 5)
+                slider.ValueLabel.BackgroundTransparency = 1
+                slider.ValueLabel.Text = tostring(default)
+                slider.ValueLabel.TextColor3 = Compkiller.Colors.SwitchColor
+                slider.ValueLabel.TextSize = 14
+                slider.ValueLabel.Font = Enum.Font.Gotham
+                slider.ValueLabel.TextXAlignment = Enum.TextXAlignment.Right
+                slider.ValueLabel.Parent = slider.Frame
+                
+                -- Slider Track
+                slider.Track = Instance.new("Frame")
+                slider.Track.Name = "Track"
+                slider.Track.Size = UDim2.new(1, -20, 0, 4)
+                slider.Track.Position = UDim2.new(0, 10, 1, -15)
+                slider.Track.BackgroundColor3 = Compkiller.Colors.BlockColor
+                slider.Track.BorderSizePixel = 0
+                slider.Track.Parent = slider.Frame
+                
+                CreateCorner(slider.Track, 2)
+                
+                -- Slider Fill
+                slider.Fill = Instance.new("Frame")
+                slider.Fill.Name = "Fill"
+                slider.Fill.Size = UDim2.new((default - min) / (max - min), 0, 1, 0)
+                slider.Fill.Position = UDim2.new(0, 0, 0, 0)
+                slider.Fill.BackgroundColor3 = Compkiller.Colors.Highlight
+                slider.Fill.BorderSizePixel = 0
+                slider.Fill.Parent = slider.Track
+                
+                CreateCorner(slider.Fill, 2)
+                
+                -- Slider Knob
+                slider.Knob = Instance.new("Frame")
+                slider.Knob.Name = "Knob"
+                slider.Knob.Size = UDim2.new(0, 12, 0, 12)
+                slider.Knob.Position = UDim2.new((default - min) / (max - min), -6, 0.5, -6)
+                slider.Knob.BackgroundColor3 = Compkiller.Colors.SwitchColor
+                slider.Knob.BorderSizePixel = 0
+                slider.Knob.Parent = slider.Track
+                
+                CreateCorner(slider.Knob, 6)
+                
+                -- Slider Functionality
+                local dragging = false
+                
+                slider.Track.InputBegan:Connect(function(input)
+                    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                        dragging = true
                     end
-                end
+                end)
+                
+                UserInputService.InputEnded:Connect(function(input)
+                    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                        dragging = false
+                    end
+                end)
+                
+                UserInputService.InputChanged:Connect(function(input)
+                    if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+                        local trackPosition = slider.Track.AbsolutePosition.X
+                        local trackSize = slider.Track.AbsoluteSize.X
+                        local mouseX = input.Position.X
+                        
+                        local percentage = math.clamp((mouseX - trackPosition) / trackSize, 0, 1)
+                        local value = math.floor(min + (max - min) * percentage)
+                        
+                        slider.Value = value
+                        slider.ValueLabel.Text = tostring(value)
+                        
+                        CreateTween(slider.Fill, {Size = UDim2.new(percentage, 0, 1, 0)})
+                        CreateTween(slider.Knob, {Position = UDim2.new(percentage, -6, 0.5, -6)})
+                        
+                        callback(value)
+                    end
+                end)
+                
+                table.insert(self.Elements, slider)
+                return slider
             end
+            
+            table.insert(self.Sections, section)
+            return section
         end
         
-        self:Notify({
-            Title = "Config Loaded",
-            Content = "Configuration loaded: " .. name,
-            Duration = 2
-        })
-    else
-        self:Notify({
-            Title = "Load Failed",
-            Content = "Failed to load configuration",
-            Duration = 3
-        })
-    end
-end
-
--- Mobile Support
-if Compkiller.Config.Mobile then
-    -- Adjust sizes and positions for mobile
-    Compkiller.Config.WindowSize = UDim2.new(0, 320, 0, 400)
-    Compkiller.Config.FontSize = 12
-    
-    -- Add mobile-specific touch handlers
-    local function addMobileSupport(element)
-        element.TouchTap:Connect(function()
-            -- Handle touch tap
-        end)
+        -- Add tab to window
+        table.insert(self.Tabs, tab)
         
-        element.TouchLongPress:Connect(function()
-            -- Handle long press
-        end)
+        -- Select first tab by default
+        if #self.Tabs == 1 then
+            self:SelectTab(tab)
+        end
+        
+        return tab
     end
+    
+    function self:SelectTab(tab)
+        -- Hide current tab
+        if self.CurrentTab then
+            self.CurrentTab.Content.Visible = false
+            CreateTween(self.CurrentTab.Button, {BackgroundColor3 = Compkiller.Colors.BlockColor})
+        end
+        
+        -- Show new tab
+        self.CurrentTab = tab
+        tab.Content.Visible = true
+        CreateTween(tab.Button, {BackgroundColor3 = Compkiller.Colors.Highlight})
+    end
+    
+    return self
 end
 
 return Compkiller
